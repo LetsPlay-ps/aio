@@ -9,6 +9,13 @@
 
   <!-- Core Exploit Bundle for 7.00 - 9.60 -->
   <script src="./bundle.js"></script>
+  <!-- Full Exploit Engines for 10.00 - 13.00 (Cached 100% Offline) -->
+  <script src="./int64.js"></script>
+  <script src="./ps4_offsets.js"></script>
+  <script src="./core.js"></script>
+  <script src="./mem.js"></script>
+  <script src="./chain_lapse.js"></script>
+  <script src="./chain_poops.js"></script>
 </head>
 
 <body>
@@ -316,16 +323,30 @@
         }
       } else if (parseFloat(activeFw) >= 12.50 || engine === "poops") {
         // Poops Engine (12.50 - 13.00)
-        setProgress(40, "Transferring to Poops Kernel Pipeline...");
-        setTimeout(() => {
-          location.replace("run_poops.html");
-        }, 500);
+        setProgress(20, "Executing Poops Exploit Pipeline...");
+        try {
+          if (typeof window.runPoops === "function") {
+            await window.runPoops();
+          } else {
+            location.replace("run_poops.html");
+          }
+        } catch (e) {
+          setProgress(10, "Poops engine error: " + (e?.message || e));
+          logToDebug("Poops error: " + (e?.message || e));
+        }
       } else {
         // Lapse Engine (10.00 - 12.02)
-        setProgress(40, "Transferring to Lapse Kernel Pipeline...");
-        setTimeout(() => {
-          location.replace("run_lapse.html");
-        }, 500);
+        setProgress(20, "Executing Lapse Exploit Pipeline...");
+        try {
+          if (typeof window.runLapse === "function") {
+            await window.runLapse();
+          } else {
+            location.replace("run_lapse.html");
+          }
+        } catch (e) {
+          setProgress(10, "Lapse engine error: " + (e?.message || e));
+          logToDebug("Lapse error: " + (e?.message || e));
+        }
       }
     }
 
@@ -416,5 +437,9 @@
       }
     });
   </script>
+
+  <!-- Hidden Telemetry Elements for Exploit Logging -->
+  <div id="out" style="display:none;"></div>
+  <span id="state" style="display:none;"></span>
 </body>
 </html>

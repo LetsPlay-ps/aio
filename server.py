@@ -42,9 +42,12 @@ class CustomHTTPHandler(SimpleHTTPRequestHandler):
 
     def end_headers(self):
         self.send_header('Access-Control-Allow-Origin', '*')
-        self.send_header('Cache-Control', 'no-cache, no-store, must-revalidate')
-        self.send_header('Pragma', 'no-cache')
-        self.send_header('Expires', '0')
+        path = getattr(self, 'path', '')
+        if path.endswith('.manifest') or path.endswith('.appcache'):
+            self.send_header('Cache-Control', 'no-cache, must-revalidate')
+        else:
+            # Allow permanent offline caching in PS4 WebKit Application Cache
+            self.send_header('Cache-Control', 'public, max-age=31536000')
         super().end_headers()
 
     def log_message(self, format, *args):

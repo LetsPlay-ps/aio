@@ -8,8 +8,8 @@ const offsetsFor = globalThis.offsetsFor;
 
 
 
-const outEl = document.getElementById("out");
-const stateEl = document.getElementById("state");
+const outEl = document.getElementById("out") || document.getElementById("console");
+const stateEl = document.getElementById("state") || document.getElementById("progressStatus");
 const lines = [];
 
 
@@ -108,6 +108,21 @@ function mark(tag, detail) {
     }).join("\n");
     outEl.scrollTop = outEl.scrollHeight;
     post(tag, detail);
+    try {
+        if (typeof window.setProgress === "function") {
+            if (tag.includes("PROOF-SUMMARY-FINAL") || tag.includes("ALL DONE") || tag.includes("STEP-4Q-DONE") || tag.includes("SAFE-TO-EXIT")) {
+                window.setProgress(100, "Jailbreak complete! GoldHEN loaded successfully.");
+            } else if (tag.includes("KPATCH-BLOB") || tag.includes("KPATCH-SITES")) {
+                window.setProgress(85, "Applying kernel patches...");
+            } else if (tag.includes("WORKER-READY") || tag.includes("KERNEL-ARW") || tag.includes("KARW")) {
+                window.setProgress(65, "Kernel Read/Write achieved.");
+            } else if (tag.includes("LEAK") || tag.includes("SPRAY") || tag.includes("DOUBLE")) {
+                window.setProgress(45, "Leaking kernel addresses & preparing UAF...");
+            } else if (tag.includes("CARRIER") || tag.includes("PRIMITIVE")) {
+                window.setProgress(30, "WebKit userland primitive established.");
+            }
+        }
+    } catch(e) {}
 }
 function state(t, c) { stateEl.textContent = t; stateEl.className = c || ""; }
 
@@ -253,7 +268,7 @@ function makeRpc(worker) {
     };
 }
 
-(async function () {
+window.runLapse = async function () {
     let worker = null;
     let p = null, sc = null, stubOf = null;
     try {
@@ -3868,3 +3883,7 @@ function makeRpc(worker) {
         }
     }
 })();
+
+if (typeof window !== "undefined" && (window.__autoRunLapse || (typeof location !== "undefined" && location.pathname.endsWith("run_lapse.html")))) {
+    window.runLapse();
+}

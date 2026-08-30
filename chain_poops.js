@@ -12,8 +12,8 @@ const offsetsFor = globalThis.offsetsFor;
 
 
 
-const outEl = document.getElementById("out");
-const stateEl = document.getElementById("state");
+const outEl = document.getElementById("out") || document.getElementById("console");
+const stateEl = document.getElementById("state") || document.getElementById("progressStatus");
 const lines = [];
 let passCount = 0, failCount = 0;
 const params = new URLSearchParams(location.search);
@@ -176,7 +176,7 @@ let savedMask = null, savedPrio = null, restoreCtx = null, attrsRestored = false
 
 let allDone = false;
 
-(async function () {
+window.runPoops = async function () {
     let p = null;
     try {
 
@@ -2539,3 +2539,7 @@ let allDone = false;
         mark("PROOF-SUMMARY-FINAL", "pass=" + passCount + " fail=" + failCount);
     }
 })();
+
+if (typeof window !== "undefined" && (window.__autoRunPoops || (typeof location !== "undefined" && location.pathname.endsWith("run_poops.html")))) {
+    window.runPoops();
+}
