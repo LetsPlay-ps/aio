@@ -191,17 +191,18 @@ Instead of juggling multiple scattered exploit hosts for different firmware band
 
 ---
 
-## 🛡️ PS4 Offline Caching Guide
+## 🛡️ PS4 100% Offline Caching Guide (Single-Page Experience)
 
-1. Open your PS4 Web Browser and visit:
+1. Open your PS4 Web Browser and visit the host address:
    ```
-   http://<YOUR_IP>:8080/cache.html
+   http://<YOUR_IP>:8080/
    ```
-2. The neon progress bar will fill from **0% to 100%**, downloading all 73 exploit components into local browser storage.
-3. Once the green badge displays **`✔ 100% Cached Offline`**, you can:
-   - Disconnect the PS4 from Wi-Fi / LAN completely.
-   - Bookmark `http://<YOUR_IP>:8080/index.html` (or User's Guide).
-4. Launch the jailbreak whenever you turn on your PS4 without any network connection!
+   *(or your GitHub Pages URL)*
+2. The page automatically installs the offline cache. The neon progress bar will fill to **100%**, and the top badge will turn green: **`🛡️ 100% Offline Ready`**.
+3. Add the page to your PS4 **Bookmarks** (`Options ➔ Add Bookmark`).
+4. **Disconnect your PS4 from the Internet / Wi-Fi completely.**
+5. Restart your PS4 anytime, open your Bookmarks, and select **Let's Play**:
+   The exploit suite will launch instantly from local cache and execute the jailbreak 100% offline with **zero** network connection!
 
 ---
 

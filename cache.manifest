@@ -1,29 +1,26 @@
 CACHE MANIFEST
-# Lets Play Host v13.2 Pure Offline Master Suite
-# Total Assets: 73
+# Lets Play PS4 All-In-One Unified Offline Suite
+# Total Assets: 70
 
 CACHE:
-LP.jpg #69fa0fbe476e5f75
+index.html #0bab9d077aa4ae9f
+includes/style.css #9af1f3b726c95aa0
+includes/script.js #d241b31da3abdc73
 LP_controller.png #5301dc0d54c77344
-bundle.js #60c2d35e85445032
-cache.html #5b9c4d1c990e7bca
-chain_lapse.js #3b62ed467a7e119b
-chain_poops.js #541eae5a1acce4ca
-core.js #553926ceed74ca6b
-gamer_avatar.png #10cc36e784488127
-icon0.png #d301da629a5c1d1b
-index.html #6a2898da50cabc8e
-int64.js #4d8a55c8087f72e0
+LP.jpg #69fa0fbe476e5f75
 logo.png #a279532c4cd99199
 logo_transparent.png #1b92c3dd033877ff
-mem.js #0c6528c93848fff7
-payload.bin #140c2813a63abfcf
+gamer_avatar.png #10cc36e784488127
+icon0.png #d301da629a5c1d1b
+bundle.js #60c2d35e85445032
+int64.js #4d8a55c8087f72e0
 ps4_offsets.js #4648a043ebb2128f
+core.js #553926ceed74ca6b
+mem.js #0c6528c93848fff7
+chain_lapse.js #3b62ed467a7e119b
+chain_poops.js #541eae5a1acce4ca
 rpc_worker.js #fb2f71d04054c895
-run_lapse.html #59ff01c6a4cda418
-run_poops.html #d0c49b1c2b366a71
-includes/script.js #d241b31da3abdc73
-includes/style.css #9af1f3b726c95aa0
+payload.bin #140c2813a63abfcf
 patches/1000.bin #76edf32da48f9930
 patches/1050.bin #a8ea882305fedffb
 patches/1100.bin #51d68b4b3fdb7b29
@@ -43,39 +40,39 @@ patches/850.bin #6736d65734b31577
 patches/900.bin #b0fa1f5a6656c45e
 patches/903.bin #2f85cce672a34d9c
 patches/950.bin #51a21e561bda3783
-src\lapse.js #b68d721300a22baf
-src\loader.js #e6b79e929913b9cf
-src\main.js #264640cb08666aff
-src\misc.js #cdc258e5289d4603
-src\netctrl.js #b66137d278e2279e
-src\payload.bin #140c2813a63abfcf
-src\utils.mjs #ed345290d9f482e2
-src\worker.js #58d6f7a4afa5d462
-src\workers.js #fa806d52ba3e8669
-src\ps4\constants.js #d966c6210d69a21d
-src\ps4\kernel.js #7e10189732db96f7
-src\ps4\offsets.mjs #5779ec9e2609bfc9
-src\ps4\userland.js #c586f533f068a286
-src\ps4\userland.mjs #1c1b2d97afae97a4
-src\ps4\patches\1000.bin #76edf32da48f9930
-src\ps4\patches\1050.bin #a8ea882305fedffb
-src\ps4\patches\1100.bin #51d68b4b3fdb7b29
-src\ps4\patches\1102.bin #259101d43aa6ff6b
-src\ps4\patches\1150.bin #1de938580c7b3186
-src\ps4\patches\1200.bin #477d32d40c5aa6e2
-src\ps4\patches\1250.bin #09cd2dfde39a248c
-src\ps4\patches\1300.bin #97a58984f4e423ca
-src\ps4\patches\600.bin #ee3ccfd22a36ca21
-src\ps4\patches\620.bin #8b70855d8c78d01f
-src\ps4\patches\650.bin #c398fe85bd21eb28
-src\ps4\patches\670.bin #fb99612ff365ed15
-src\ps4\patches\700.bin #00cac827fca4aeef
-src\ps4\patches\750.bin #0133445f616d655d
-src\ps4\patches\800.bin #05cb11006229f9db
-src\ps4\patches\850.bin #6736d65734b31577
-src\ps4\patches\900.bin #b0fa1f5a6656c45e
-src\ps4\patches\903.bin #2f85cce672a34d9c
-src\ps4\patches\950.bin #51a21e561bda3783
+src/lapse.js #b68d721300a22baf
+src/loader.js #e6b79e929913b9cf
+src/main.js #264640cb08666aff
+src/misc.js #cdc258e5289d4603
+src/netctrl.js #b66137d278e2279e
+src/payload.bin #140c2813a63abfcf
+src/utils.mjs #ed345290d9f482e2
+src/worker.js #58d6f7a4afa5d462
+src/workers.js #fa806d52ba3e8669
+src/ps4/constants.js #d966c6210d69a21d
+src/ps4/kernel.js #7e10189732db96f7
+src/ps4/offsets.mjs #5779ec9e2609bfc9
+src/ps4/userland.js #c586f533f068a286
+src/ps4/userland.mjs #1c1b2d97afae97a4
+src/ps4/patches/1000.bin #76edf32da48f9930
+src/ps4/patches/1050.bin #a8ea882305fedffb
+src/ps4/patches/1100.bin #51d68b4b3fdb7b29
+src/ps4/patches/1102.bin #259101d43aa6ff6b
+src/ps4/patches/1150.bin #1de938580c7b3186
+src/ps4/patches/1200.bin #477d32d40c5aa6e2
+src/ps4/patches/1250.bin #09cd2dfde39a248c
+src/ps4/patches/1300.bin #97a58984f4e423ca
+src/ps4/patches/600.bin #ee3ccfd22a36ca21
+src/ps4/patches/620.bin #8b70855d8c78d01f
+src/ps4/patches/650.bin #c398fe85bd21eb28
+src/ps4/patches/670.bin #fb99612ff365ed15
+src/ps4/patches/700.bin #00cac827fca4aeef
+src/ps4/patches/750.bin #0133445f616d655d
+src/ps4/patches/800.bin #05cb11006229f9db
+src/ps4/patches/850.bin #6736d65734b31577
+src/ps4/patches/900.bin #b0fa1f5a6656c45e
+src/ps4/patches/903.bin #2f85cce672a34d9c
+src/ps4/patches/950.bin #51a21e561bda3783
 
 NETWORK:
 *

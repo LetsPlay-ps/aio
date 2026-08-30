@@ -328,7 +328,7 @@
           if (typeof window.runPoops === "function") {
             await window.runPoops();
           } else {
-            location.replace("run_poops.html");
+            setProgress(10, "Poops engine not loaded.");
           }
         } catch (e) {
           setProgress(10, "Poops engine error: " + (e?.message || e));
@@ -341,7 +341,7 @@
           if (typeof window.runLapse === "function") {
             await window.runLapse();
           } else {
-            location.replace("run_lapse.html");
+            setProgress(10, "Lapse engine not loaded.");
           }
         } catch (e) {
           setProgress(10, "Lapse engine error: " + (e?.message || e));
