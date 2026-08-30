@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en" manifest="cache.manifest">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Let's Play • Installing Offline Cache (FW 7.00 - 13.00)</title>
+  <link rel="icon" type="image/png" href="icon0.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;800;900&family=Rajdhani:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="includes/style.css">
+</head>
+
+<body>
+  <div class="main-wrapper">
+    <!-- Seamless Header (No Frame) -->
+    <header class="header-card">
+      <h1 class="brand-title">LET'S PLAY</h1>
+      <p class="brand-subtitle">Installing Offline Cache • All-In-One (FW 7.00 - 13.00)</p>
+      
+      <div class="badges-row">
+        <span class="badge badge-primary">🎮 PS4 Exploit Suite</span>
+        <span class="badge badge-success" id="cacheBadge">⚡ Initializing Cache...</span>
+        <span class="badge badge-secondary">🛡️ 100% Offline Ready</span>
+      </div>
+    </header>
+
+    <!-- Centerpiece Controller Graphic (Seamless, No Frame) -->
+    <div class="controller-stage" style="max-width: 420px; margin: 4px auto;">
+      <img src="LP_controller.png" alt="Let's Play PS4 Controller" class="controller-base-img" id="controllerGraphic">
+    </div>
+
+    <!-- Futuristic Neon Progress Bar (Seamless, No Frame) -->
+    <div class="progress-card">
+      <div class="progress-header">
+        <div class="progress-status-text">
+          <span>⚡</span>
+          <span id="cacheStatus">Connecting to cache manifest...</span>
+        </div>
+        <span class="progress-percentage" id="cachePct">0%</span>
+      </div>
+
+      <div class="progress-track">
+        <div class="progress-fill" id="cacheBar"></div>
+      </div>
+
+      <!-- Compact Drawer for Cache Logs -->
+      <button type="button" class="debug-drawer-toggle" onclick="toggleCacheLog()">
+        Show / Hide Cached Files Log
+      </button>
+      <div id="cacheLog" class="debug-console"></div>
+    </div>
+
+    <!-- Return to Host Button (Compact & Centered) -->
+    <div class="action-container" style="margin-top: 4px;">
+      <a href="index.html" class="launch-btn" style="text-decoration:none; padding: 10px 28px; font-size: 16px;">
+        <span>🚀 Open Exploit Host</span>
+      </a>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+      <div><strong>LET'S PLAY HOST</strong> • Developed & Maintained by <strong>Ahmed Elattar</strong></div>
+    </footer>
+  </div>
+
+  <script>
+    function toggleCacheLog() {
+      const el = document.getElementById("cacheLog");
+      el.style.display = el.style.display === "block" ? "none" : "block";
+    }
+
+    const cacheStatus = document.getElementById("cacheStatus");
+    const cachePct = document.getElementById("cachePct");
+    const cacheBar = document.getElementById("cacheBar");
+    const cacheBadge = document.getElementById("cacheBadge");
+    const cacheLog = document.getElementById("cacheLog");
+
+    function logCache(msg) {
+      if (!cacheLog) return;
+      cacheLog.innerHTML += msg + "\n";
+      cacheLog.scrollTop = cacheLog.scrollHeight;
+    }
+
+    function setCacheProgress(p, msg) {
+      cacheBar.style.width = p + "%";
+      cachePct.textContent = p + "%";
+      if (msg) cacheStatus.textContent = msg;
+    }
+
+    const ac = window.applicationCache;
+    if (ac) {
+      ac.addEventListener("checking", function () {
+        setCacheProgress(5, "Checking cache manifest...");
+        logCache("[CACHE] Checking cache manifest for updates...");
+      });
+
+      ac.addEventListener("downloading", function () {
+        cacheBadge.textContent = "⚡ Downloading Assets...";
+        setCacheProgress(10, "Downloading exploit packages and kernel patches...");
+        logCache("[CACHE] Starting asset download into browser storage...");
+      });
+
+      ac.addEventListener("progress", function (e) {
+        if (e && e.total) {
+          const p = Math.round((e.loaded / e.total) * 100);
+          setCacheProgress(p, `Caching offline assets: ${e.loaded} of ${e.total} (${p}%)...`);
+          logCache(`[CACHE] Stored file ${e.loaded} / ${e.total} (${p}%)`);
+        }
+      });
+
+      ac.addEventListener("cached", function () {
+        cacheBadge.textContent = "✔ 100% Cached Offline";
+        cacheBadge.className = "badge badge-success";
+        setCacheProgress(100, "Cache complete! You can now use the host 100% offline.");
+        logCache("[SUCCESS] All files stored in offline cache. Redirecting to home in 2s...");
+        setTimeout(function () {
+          location.replace("index.html");
+        }, 2000);
+      });
+
+      ac.addEventListener("noupdate", function () {
+        cacheBadge.textContent = "✔ Up to Date";
+        cacheBadge.className = "badge badge-success";
+        setCacheProgress(100, "Offline cache is up to date. Redirecting...");
+        logCache("[SUCCESS] Cache verified. Redirecting...");
+        setTimeout(function () {
+          location.replace("index.html");
+        }, 1500);
+      });
+
+      ac.addEventListener("updateready", function () {
+        try { ac.swapCache(); } catch (err) {}
+        cacheBadge.textContent = "✔ Update Ready";
+        setCacheProgress(100, "Cache updated! Reloading...");
+        setTimeout(function () {
+          location.replace("index.html");
+        }, 1500);
+      });
+
+      ac.addEventListener("error", function () {
+        if (!navigator.onLine || ac.status === ac.IDLE) {
+          cacheBadge.textContent = "✔ Offline Cache Active";
+          setCacheProgress(100, "Loaded from offline cache.");
+          setTimeout(function () {
+            location.replace("index.html");
+          }, 1500);
+        } else {
+          setCacheProgress(100, "Cache check finished.");
+        }
+      });
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,81 @@
+CACHE MANIFEST
+# Lets Play Host v13.0 Unified Offline Cache
+# Total Assets: 73
+
+CACHE:
+LP.jpg #764ff46cf8b43266
+LP_controller.png #b54e88ec59b282db
+bundle.js #07b7d782790d5b9b
+cache.html #192f958f1d0c56b2
+chain_lapse.js #fd0cc044e03be88d
+chain_poops.js #c41d147644d97656
+core.js #3acf7e09988f10f8
+gamer_avatar.png #91f7f7dc71137676
+icon0.png #14828d89d36082d4
+index.html #539d2e4d66fc23ea
+int64.js #a79a3334a3f2c75b
+logo.png #23fddc75664d857d
+logo_transparent.png #7c6bfe6054d15ddc
+mem.js #4a1b688e8061372b
+payload.bin #c6329401d1810e16
+ps4_offsets.js #1edbbc68e5b37de8
+rpc_worker.js #483925eafec03037
+run_lapse.html #a3dff215ba954b2a
+run_poops.html #59222d07bf08dcfe
+includes/script.js #c97b652f623be06a
+includes/style.css #3427a459d1696820
+patches/1000.bin #954ff624c9c92ab9
+patches/1050.bin #fbf815d2d47a707c
+patches/1100.bin #15497a2b748dafd4
+patches/1102.bin #4634f7bcdaeea7a4
+patches/1150.bin #d4e3a514e462b973
+patches/1200.bin #87f1d40aea8fbf3a
+patches/1250.bin #5baaf0bb2663064d
+patches/1300.bin #be70930d96c40b8d
+patches/600.bin #0926e4aad37d1279
+patches/620.bin #e239de491039a189
+patches/650.bin #1083e8b16f1c3dbc
+patches/670.bin #589afd201592ccef
+patches/700.bin #b2793ae0c589b074
+patches/750.bin #70bb383269face27
+patches/800.bin #aa30be1ce005f10d
+patches/850.bin #889aeea9e4d4316c
+patches/900.bin #1645039fd48ec3f9
+patches/903.bin #779a980d04afc6dc
+patches/950.bin #d3d536b07cf9f07d
+src/lapse.js #8a3841c61ff8219c
+src/loader.js #57f9bce0340bb5c7
+src/main.js #799f5962c9f50848
+src/misc.js #9cdb37364c9370ef
+src/netctrl.js #a31270f6ab2345d5
+src/payload.bin #c6329401d1810e16
+src/utils.mjs #a2ef42be3a24e3f0
+src/worker.js #d7bd66b673754522
+src/workers.js #199ae642c1c0bdd4
+src/ps4/constants.js #c832a6f7ba08b729
+src/ps4/kernel.js #bb184cf282dcb9c9
+src/ps4/offsets.mjs #6589f2a138103c48
+src/ps4/userland.js #dc1ae1fd99829511
+src/ps4/userland.mjs #8f0734493bcab95b
+src/ps4/patches/1000.bin #954ff624c9c92ab9
+src/ps4/patches/1050.bin #fbf815d2d47a707c
+src/ps4/patches/1100.bin #15497a2b748dafd4
+src/ps4/patches/1102.bin #4634f7bcdaeea7a4
+src/ps4/patches/1150.bin #d4e3a514e462b973
+src/ps4/patches/1200.bin #87f1d40aea8fbf3a
+src/ps4/patches/1250.bin #5baaf0bb2663064d
+src/ps4/patches/1300.bin #be70930d96c40b8d
+src/ps4/patches/600.bin #0926e4aad37d1279
+src/ps4/patches/620.bin #e239de491039a189
+src/ps4/patches/650.bin #1083e8b16f1c3dbc
+src/ps4/patches/670.bin #589afd201592ccef
+src/ps4/patches/700.bin #b2793ae0c589b074
+src/ps4/patches/750.bin #70bb383269face27
+src/ps4/patches/800.bin #aa30be1ce005f10d
+src/ps4/patches/850.bin #889aeea9e4d4316c
+src/ps4/patches/900.bin #1645039fd48ec3f9
+src/ps4/patches/903.bin #779a980d04afc6dc
+src/ps4/patches/950.bin #d3d536b07cf9f07d
+
+NETWORK:
+*

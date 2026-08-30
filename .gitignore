@@ -1,0 +1,14 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyc
+
+# Local server & logs
+*.log
+
+# Temp files
+scratch_*
+tune_*
+check_*
+test_*
