@@ -1,4 +1,4 @@
-export const REQUIRED_KEYS = [
+const REQUIRED_KEYS = [
     "fw_status",
     "wk_expm1_builtin", "wk_JSFunction_m_function",
     "wk_POP_RDI_RET", "wk_POP_RSI_RET", "wk_POP_RDX_RET", "wk_POP_RCX_RET",
@@ -12,7 +12,7 @@ export const REQUIRED_KEYS = [
     "k_scan_stage1", "k_scan_stage2",
     "k_evf_cv", "k_sysent_661", "k_jmp_rsi",
 ];
-export const OPTIONAL_KEYS = [
+const OPTIONAL_KEYS = [
     "k_stubs", "wk___imp_pthread_create", "k_pthread_create",
     // Overrides the patch-blob name, which otherwise derives from the firmware
     // key ("13.00" -> patches/1300.bin). Needed when two firmwares share one
@@ -25,8 +25,7 @@ export const OPTIONAL_KEYS = [
     // buries a real one.
     "alias_of",
 ];
-
-export const PS4 = {
+const PS4 = {
     "11.00": {
 
         fw_status: "state=proven step4q=90/0 reboot=0 kernel_rvas=5/5-vs-dump",
@@ -443,11 +442,16 @@ PS4["12.52"] = Object.assign({}, PS4["12.50"], {
         + "kpatch=1250.bin bug=poops",
     kpatch: "1250.bin",
 });
-
-export function offsetsFor(uaString) {
+function offsetsFor(uaString) {
     const m = (uaString || "").match(/PlayStation\s+4[\/ ](\d+)\.(\d+)/);
     if (!m) return { key: null, off: null };
 
     const key = m[1] + "." + parseInt(m[2], 16).toString(16).padStart(2, "0");
     return { key, off: PS4[key] || null };
 }
+
+
+globalThis.REQUIRED_KEYS = REQUIRED_KEYS;
+globalThis.OPTIONAL_KEYS = OPTIONAL_KEYS;
+globalThis.PS4 = PS4;
+globalThis.offsetsFor = offsetsFor;

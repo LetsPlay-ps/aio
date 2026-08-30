@@ -1,5 +1,5 @@
 CACHE MANIFEST
-# Lets Play Host v13.1 Offline Exploit Suite
+# Lets Play Host v13.2 Pure Offline Master Suite
 # Total Assets: 73
 
 CACHE:
@@ -7,21 +7,21 @@ LP.jpg #69fa0fbe476e5f75
 LP_controller.png #5301dc0d54c77344
 bundle.js #60c2d35e85445032
 cache.html #5b9c4d1c990e7bca
-chain_lapse.js #523e23a1d67e5ea6
-chain_poops.js #468dacaafc4e0393
-core.js #d9ad4b98faafb16a
+chain_lapse.js #1a6238480a2f4f5d
+chain_poops.js #949caed2e7ecdbf1
+core.js #553926ceed74ca6b
 gamer_avatar.png #10cc36e784488127
 icon0.png #d301da629a5c1d1b
-index.html #5c0bd8efb2fbe32c
+index.html #7643392e277af011
 int64.js #4d8a55c8087f72e0
 logo.png #a279532c4cd99199
 logo_transparent.png #1b92c3dd033877ff
-mem.js #c3137d77c86441e3
+mem.js #0c6528c93848fff7
 payload.bin #140c2813a63abfcf
-ps4_offsets.js #1123e254788314df
+ps4_offsets.js #4648a043ebb2128f
 rpc_worker.js #fb2f71d04054c895
-run_lapse.html #7c6a1917d3735207
-run_poops.html #8a81a7dbb05d08bf
+run_lapse.html #59ff01c6a4cda418
+run_poops.html #d0c49b1c2b366a71
 includes/script.js #d241b31da3abdc73
 includes/style.css #9af1f3b726c95aa0
 patches/1000.bin #76edf32da48f9930

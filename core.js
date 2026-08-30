@@ -1235,8 +1235,7 @@ function buildCarrier() {
         }
     };
 }
-
-export function establishPrimitive(options) {
+function establishPrimitive(options) {
     const opts = options || {};
 
     if (fakeReleased)
@@ -1270,8 +1269,7 @@ export function establishPrimitive(options) {
         startAttempt();
     });
 }
-
-export function currentCarrier() {
+function currentCarrier() {
     return liveCandidate === null ? null : buildCarrier();
 }
 
@@ -1282,8 +1280,7 @@ const RELEASED_BINDINGS = [
     "predecessorWords", "outerGraph", "fillerGraph", "referenceTarget",
     "keepAlive"
 ];
-
-export function releaseFakeCell() {
+function releaseFakeCell() {
     const report = {
         released: RELEASED_BINDINGS.slice(),
         alreadyReleased: fakeReleased,
@@ -1323,17 +1320,19 @@ export function releaseFakeCell() {
     retryScheduled = false;
     return report;
 }
-
-export function fakeCellReleased() {
+function fakeCellReleased() {
     return fakeReleased;
 }
-
-export function carrierHeaderCopy() {
+function carrierHeaderCopy() {
     return rwHeader.slice(0, CELL_BYTES);
 }
-
-export function carrierHomeVector() {
+function carrierHomeVector() {
     return rwOriginalVector;
 }
 
-export { profile, aimCarrier, restoreCarrier, plausibleAddress, plausibleCell };
+globalThis.establishPrimitive = establishPrimitive;
+globalThis.currentCarrier = currentCarrier;
+globalThis.releaseFakeCell = releaseFakeCell;
+globalThis.fakeCellReleased = fakeCellReleased;
+globalThis.carrierHeaderCopy = carrierHeaderCopy;
+globalThis.carrierHomeVector = carrierHomeVector;

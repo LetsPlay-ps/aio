@@ -1,10 +1,16 @@
+
+const establishPrimitive = globalThis.establishPrimitive;
+const installWindowP = globalThis.installWindowP;
+const pairStatus = globalThis.pairStatus;
+const int64 = globalThis.int64;
+const offsetsFor = globalThis.offsetsFor;
+
 // ?v=10 must match mem.js's specifier EXACTLY or core.js builds a second
 // module record and releaseFakeCell() (only call site: mem.js:662) reaches a
 // virgin instance, pinning ~137 MB for the life of the page.
-import { establishPrimitive } from "./core.js?v=10";
-import { installWindowP, pairStatus } from "./mem.js";
-import { int64 } from "./int64.js";
-import { offsetsFor } from "./ps4_offsets.js";
+
+
+
 
 const outEl = document.getElementById("out");
 const stateEl = document.getElementById("state");
