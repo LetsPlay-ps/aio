@@ -17,8 +17,8 @@ int64.js #bbf625298cfaa231
 ps4_offsets.js #1c6320c66a6014b4
 core.js #6f087c6f6bbe5c5c
 mem.js #faa69db2c9f26d2f
-chain_lapse.js #d902adc9f453157f
-chain_poops.js #253023475d050eb8
+chain_lapse.js #8b7f2cb55b65c649
+chain_poops.js #e3c29aeaea2e6270
 rpc_worker.js #fb2f71d04054c895
 payload.bin #140c2813a63abfcf
 patches/1000.bin #76edf32da48f9930

@@ -13,8 +13,12 @@
 
 
 
-const outEl = document.getElementById("out") || document.getElementById("console");
-const stateEl = document.getElementById("state") || document.getElementById("progressStatus");
+function getOutEl() {
+    return (typeof document !== "undefined") ? (document.getElementById("console") || document.getElementById("out")) : null;
+}
+function getStateEl() {
+    return (typeof document !== "undefined") ? (document.getElementById("progressStatus") || document.getElementById("state")) : null;
+}
 const lines = [];
 let passCount = 0, failCount = 0;
 const params = new URLSearchParams(location.search);
@@ -105,19 +109,25 @@ function mark(tag, detail) {
     detail = terse(detail);
     lines.push(tag + (detail == null || detail === "" ? "" : "  " + detail));
     const esc = t => String(t).replace(/&/g, "&amp;").replace(/</g, "&lt;");
-    outEl.innerHTML = lines.map(function (l) {
+    getOutEl().innerHTML = lines.map(function (l) {
         l = esc(l);
         const c = /FAIL|ERROR|THREW|REBOOT|MISS|LOST|POISON|TIMEOUT|MISMATCH|ABORTED/i.test(l) ? "bad"
                 : /WARN|SKIP|REFUSED|COMMITTED|DIRTY/i.test(l) ? "warn"
                 : /\bOK\b|PASS|ACHIEVED|RUNNING|ARMED/i.test(l) ? "ok" : "";
         return c ? '<span class="' + c + '">' + l + "</span>" : l;
     }).join("\n");
-    outEl.scrollTop = outEl.scrollHeight;
+    getOutEl().scrollTop = getOutEl().scrollHeight;
     post(tag, raw);
 }
 
 function trace(tag, detail) { if (VERBOSE) mark(tag, detail); else post(tag, detail); }
-function state(t, c) { stateEl.textContent = t; stateEl.className = c || ""; }
+function state(t, c) {
+    const targetState = getStateEl();
+    if (targetState) {
+        targetState.textContent = t;
+        targetState.className = c || "";
+    }
+}
 function check(name, ok, detail) {
     if (ok) { passCount++; mark("PROOF-OK", name + (detail ? "  " + detail : "")); }
     else { failCount++; mark("PROOF-FAIL", name + (detail ? "  " + detail : "")); }

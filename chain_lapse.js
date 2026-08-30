@@ -5,8 +5,12 @@
 
 
 
-const outEl = document.getElementById("out") || document.getElementById("console");
-const stateEl = document.getElementById("state") || document.getElementById("progressStatus");
+function getOutEl() {
+    return (typeof document !== "undefined") ? (document.getElementById("console") || document.getElementById("out")) : null;
+}
+function getStateEl() {
+    return (typeof document !== "undefined") ? (document.getElementById("progressStatus") || document.getElementById("state")) : null;
+}
 const lines = [];
 
 
@@ -96,14 +100,17 @@ function mark(tag, detail) {
         return String(t).replace(/&/g, "&amp;").replace(/</g, "&lt;")
                         .replace(/>/g, "&gt;");
     };
-    outEl.innerHTML = lines.map(function (l) {
-        l = esc(l);
-        const c = /FAIL|ERROR|THREW|MISMATCH|WRONG|MISSING|TIMEOUT|NOT-FOUND/i.test(l) ? "bad"
-                : /SKIP|GAP|WOULD-HAVE-WON|WARN/i.test(l) ? "warn"
-                : /OK|PROVEN|READY|pass|BASELINE/i.test(l) ? "ok" : "";
-        return c ? '<span class="' + c + '">' + l + "</span>" : l;
-    }).join("\n");
-    outEl.scrollTop = outEl.scrollHeight;
+    const targetOut = getOutEl();
+    if (targetOut) {
+        targetOut.innerHTML = lines.map(function (l) {
+            l = esc(l);
+            const c = /FAIL|ERROR|THREW|MISMATCH|WRONG|MISSING|TIMEOUT|NOT-FOUND/i.test(l) ? "bad"
+                    : /SKIP|GAP|WOULD-HAVE-WON|WARN/i.test(l) ? "warn"
+                    : /OK|PROVEN|READY|pass|BASELINE/i.test(l) ? "ok" : "";
+            return c ? '<span class="' + c + '">' + l + "</span>" : l;
+        }).join("\n");
+        targetOut.scrollTop = targetOut.scrollHeight;
+    }
     post(tag, detail);
     try {
         if (typeof window.setProgress === "function") {
@@ -121,7 +128,13 @@ function mark(tag, detail) {
         }
     } catch(e) {}
 }
-function state(t, c) { stateEl.textContent = t; stateEl.className = c || ""; }
+function state(t, c) {
+    const targetState = getStateEl();
+    if (targetState) {
+        targetState.textContent = t;
+        targetState.className = c || "";
+    }
+}
 
 let passCount = 0, failCount = 0;
 function check(name, ok, detail) {
@@ -3853,8 +3866,8 @@ window.runLapse = async function () {
             mark("REBOOT-REQUIRED", (committed2 ? "TWO aliased pairs are live (0x80 rthdr " + "and 0x100 pktopts). " : "") + "do not keep browsing and do not close the "
                 + "browser normally. power the console off and back on.");
             try {
-                stateEl.textContent = "REBOOT THE CONSOLE";
-                stateEl.className = "bad";
+                getStateEl().textContent = "REBOOT THE CONSOLE";
+                getStateEl().className = "bad";
             } catch (e) { }
         } else if (repaired && cleanupDone) {
             mark("SAFE-TO-EXIT", "chunkX=freed-once-by-fd" + pktoptsTwins[0]
@@ -3870,12 +3883,12 @@ window.runLapse = async function () {
                   + "torn down" + (jailbroken ? ", and the process is root"
                     : "") + ". See the stage 8/9/10 marks for what is left.");
             try {
-                stateEl.textContent = payloadRunning
+                getStateEl().textContent = payloadRunning
                     ? "ALL DONE"
                     : kpatched ? "ROOT + KERNEL PATCHED -- NO REBOOT"
                     : jailbroken ? "ROOT -- NO REBOOT NEEDED"
                     : "REPAIRED -- NO REBOOT NEEDED";
-                stateEl.className = "ok";
+                getStateEl().className = "ok";
             } catch (e) { }
         }
     }
