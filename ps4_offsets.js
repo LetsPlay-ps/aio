@@ -1,3 +1,6 @@
+(function () {
+"use strict";
+
 const REQUIRED_KEYS = [
     "fw_status",
     "wk_expm1_builtin", "wk_JSFunction_m_function",
@@ -455,3 +458,12 @@ globalThis.REQUIRED_KEYS = REQUIRED_KEYS;
 globalThis.OPTIONAL_KEYS = OPTIONAL_KEYS;
 globalThis.PS4 = PS4;
 globalThis.offsetsFor = offsetsFor;
+
+
+
+window.REQUIRED_KEYS = REQUIRED_KEYS;
+window.OPTIONAL_KEYS = OPTIONAL_KEYS;
+window.PS4 = PS4;
+window.offsetsFor = offsetsFor;
+
+})();

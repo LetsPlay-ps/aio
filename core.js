@@ -1,3 +1,6 @@
+(function () {
+"use strict";
+
 let DRAIN_COUNT = 512;
 const AUTO_RETRY_DELAY_MS = 50;
 
@@ -1336,3 +1339,14 @@ globalThis.releaseFakeCell = releaseFakeCell;
 globalThis.fakeCellReleased = fakeCellReleased;
 globalThis.carrierHeaderCopy = carrierHeaderCopy;
 globalThis.carrierHomeVector = carrierHomeVector;
+
+
+
+window.establishPrimitive = establishPrimitive;
+window.currentCarrier = currentCarrier;
+window.releaseFakeCell = releaseFakeCell;
+window.fakeCellReleased = fakeCellReleased;
+window.carrierHeaderCopy = carrierHeaderCopy;
+window.carrierHomeVector = carrierHomeVector;
+
+})();

@@ -1,9 +1,10 @@
+(function () {
+"use strict";
 
-const establishPrimitive = globalThis.establishPrimitive;
-const installWindowP = globalThis.installWindowP;
-const pairStatus = globalThis.pairStatus;
-const int64 = globalThis.int64;
-const offsetsFor = globalThis.offsetsFor;
+
+
+
+
 
 // ?v=10 must match mem.js's specifier EXACTLY or core.js builds a second
 // module record and releaseFakeCell() (only call site: mem.js:662) reaches a
@@ -2538,8 +2539,14 @@ window.runPoops = async function () {
             mark("REBOOT-REQUIRED", "reason=uaf-file-not-reclaimed");
         mark("PROOF-SUMMARY-FINAL", "pass=" + passCount + " fail=" + failCount);
     }
-})();
+};
 
 if (typeof window !== "undefined" && (window.__autoRunPoops || (typeof location !== "undefined" && location.pathname.endsWith("run_poops.html")))) {
     window.runPoops();
 }
+
+
+
+// window.runPoops is already on window
+
+})();

@@ -1,14 +1,10 @@
-
-const int64 = globalThis.int64;
-const releaseFakeCell = globalThis.releaseFakeCell;
-const fakeCellReleased = globalThis.fakeCellReleased;
-const carrierHeaderCopy = globalThis.carrierHeaderCopy;
-const carrierHomeVector = globalThis.carrierHomeVector;
+(function () {
+"use strict";
 
 
-    releaseFakeCell, fakeCellReleased,
-    carrierHeaderCopy, carrierHomeVector
-} from "./core.js?v=10";
+
+
+
 
 let carrier = null;
 
@@ -768,3 +764,10 @@ function installWindowP(c, options) {
 
 globalThis.installWindowP = installWindowP;
 globalThis.pairStatus = pairStatus;
+
+
+
+window.installWindowP = installWindowP;
+window.pairStatus = pairStatus;
+
+})();

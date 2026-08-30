@@ -1,8 +1,5 @@
-
-const establishPrimitive = globalThis.establishPrimitive;
-const installWindowP = globalThis.installWindowP;
-const int64 = globalThis.int64;
-const offsetsFor = globalThis.offsetsFor;
+(function () {
+"use strict";
 
 
 
@@ -3882,8 +3879,14 @@ window.runLapse = async function () {
             } catch (e) { }
         }
     }
-})();
+};
 
 if (typeof window !== "undefined" && (window.__autoRunLapse || (typeof location !== "undefined" && location.pathname.endsWith("run_lapse.html")))) {
     window.runLapse();
 }
+
+
+
+// window.runLapse is already on window
+
+})();
